@@ -5,8 +5,8 @@ import vue from '@vitejs/plugin-vue'
 import vueDevTools from 'vite-plugin-vue-devtools'
 
 // https://vite.dev/config/
-export default defineConfig({
-  base: '/canvas-demo/', // GitHub Pages 部署路径
+export default defineConfig(({ mode }) => ({
+  base: mode === 'production' ? '/canvas/' : '/', // 生产环境用 /canvas/，开发环境用 /
   plugins: [
     vue(),
     vueDevTools(),
@@ -16,4 +16,4 @@ export default defineConfig({
       '@': fileURLToPath(new URL('./src', import.meta.url))
     },
   },
-})
+}))
