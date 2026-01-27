@@ -3,6 +3,12 @@
     <!-- 绘制工具 -->
     <ToolSection title="绘制工具">
       <ToolButton
+        icon="🖱️"
+        label="选择"
+        :active="currentTool === 'select'"
+        @click="$emit('update:tool', 'select')"
+      />
+      <ToolButton
         icon="✏️"
         label="画笔"
         :active="currentTool === 'pen'"
