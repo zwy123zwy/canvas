@@ -67,7 +67,7 @@ const getCursor = computed(() => {
 
 // 监听颜色变化，更新选中图形的颜色
 watch(() => props.color, (newColor) => {
-  if (selectedShapeId.value && props.tool === 'select') {
+  if (selectedShapeId.value) {
     const shape = shapes.value.find(s => s.id === selectedShapeId.value)
     if (shape) {
       shape.color = newColor
@@ -79,7 +79,7 @@ watch(() => props.color, (newColor) => {
 
 // 监听线宽变化，更新选中图形的线宽
 watch(() => props.lineWidth, (newWidth) => {
-  if (selectedShapeId.value && props.tool === 'select') {
+  if (selectedShapeId.value) {
     const shape = shapes.value.find(s => s.id === selectedShapeId.value)
     if (shape) {
       shape.lineWidth = newWidth
