@@ -57,22 +57,74 @@
 </template>
 
 <script setup>
-import { ref, onMounted, onUnmounted } from 'vue'
+import { ref, onMounted, onUnmounted, watch, nextTick } from 'vue'
 import CanvasBoard from './components/CanvasBoard.vue'
 import Toolbar from './components/Toolbar.vue'
 import ViewTabs from './components/ViewTabs.vue'
 
+const STORAGE_KEY = 'canvas-demo-views'
+
 // 视图管理
-const views = ref([
-  { id: 'view-1' }
-])
-const currentViewId = ref('view-1')
+const views = ref([])
+const currentViewId = ref('')
 const canvasBoardRefs = ref({})
+
+// 从 localStorage 加载视图数据
+const loadViewsFromStorage = () => {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY)
+    if (stored) {
+      const data = JSON.parse(stored)
+      if (data.views && data.views.length > 0) {
+        views.value = data.views
+        currentViewId.value = data.currentViewId || data.views[0].id
+        return
+      }
+    }
+  } catch (error) {
+    console.error('Failed to load views from storage:', error)
+  }
+  
+  // 如果没有存储数据，创建默认视图
+  const defaultView = { id: 'view-1', name: '视图 1' }
+  views.value = [defaultView]
+  currentViewId.value = defaultView.id
+}
+
+// 保存视图列表到 localStorage
+const saveViewsToStorage = () => {
+  try {
+    // 保存当前画布状态
+    if (canvasBoardRefs.value[currentViewId.value]) {
+      const canvasData = canvasBoardRefs.value[currentViewId.value].getData()
+      const view = views.value.find(v => v.id === currentViewId.value)
+      if (view) {
+        view.canvasData = canvasData
+      }
+    }
+    
+    const data = {
+      views: views.value,
+      currentViewId: currentViewId.value
+    }
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+  } catch (error) {
+    console.error('Failed to save views to storage:', error)
+  }
+}
 
 // 设置画布引用
 const setCanvasBoardRef = (viewId, el) => {
   if (el) {
     canvasBoardRefs.value[viewId] = el
+    
+    // 加载该视图的画布数据
+    nextTick(() => {
+      const view = views.value.find(v => v.id === viewId)
+      if (view && view.canvasData) {
+        el.loadData(view.canvasData)
+      }
+    })
   }
 }
 
@@ -90,17 +142,29 @@ const canRedo = ref(false)
 
 // 视图操作
 const switchView = (viewId) => {
+  // 保存当前视图状态
+  saveViewsToStorage()
   currentViewId.value = viewId
 }
 
 const addView = () => {
   const newId = `view-${Date.now()}`
-  views.value.push({ id: newId })
+  const newIndex = views.value.length + 1
+  views.value.push({ id: newId, name: `视图 ${newIndex}` })
   currentViewId.value = newId
+  saveViewsToStorage()
 }
 
 const closeView = (viewId) => {
-  if (views.value.length <= 1) return
+  if (views.value.length <= 1) {
+    alert('至少需要保留一个视图')
+    return
+  }
+  
+  // 显示确认对话框
+  if (!confirm('确定要删除这个视图吗？视图中的所有内容将被永久删除。')) {
+    return
+  }
   
   const index = views.value.findIndex(v => v.id === viewId)
   views.value.splice(index, 1)
@@ -112,20 +176,26 @@ const closeView = (viewId) => {
   if (currentViewId.value === viewId) {
     currentViewId.value = views.value[Math.max(0, index - 1)].id
   }
+  
+  // 保存到 localStorage
+  saveViewsToStorage()
 }
 
 // 操作方法
 const handleUndo = () => {
   getCurrentCanvasBoard()?.undo()
+  saveViewsToStorage()
 }
 
 const handleRedo = () => {
   getCurrentCanvasBoard()?.redo()
+  saveViewsToStorage()
 }
 
 const handleClear = () => {
   if (confirm('确定要清空画布吗？')) {
     getCurrentCanvasBoard()?.clear()
+    saveViewsToStorage()
   }
 }
 
@@ -145,10 +215,30 @@ const handleKeyDown = (e) => {
     e.preventDefault()
     handleRedo()
   }
+  
+  // Ctrl+S 保存
+  if (e.ctrlKey && e.key === 's') {
+    e.preventDefault()
+    saveViewsToStorage()
+  }
+}
+
+// 监听视图变化，自动保存
+watch(views, () => {
+  saveViewsToStorage()
+}, { deep: true })
+
+// 页面卸载前保存
+const handleBeforeUnload = () => {
+  saveViewsToStorage()
 }
 
 onMounted(() => {
+  // 加载视图数据
+  loadViewsFromStorage()
+  
   window.addEventListener('keydown', handleKeyDown)
+  window.addEventListener('beforeunload', handleBeforeUnload)
   
   // 禁止浏览器页面缩放
   document.addEventListener('wheel', (e) => {
@@ -161,10 +251,21 @@ onMounted(() => {
   document.addEventListener('gesturestart', (e) => {
     e.preventDefault()
   })
+  
+  // 定期自动保存（每30秒）
+  const autoSaveInterval = setInterval(() => {
+    saveViewsToStorage()
+  }, 30000)
+  
+  onUnmounted(() => {
+    clearInterval(autoSaveInterval)
+  })
 })
 
 onUnmounted(() => {
   window.removeEventListener('keydown', handleKeyDown)
+  window.removeEventListener('beforeunload', handleBeforeUnload)
+  saveViewsToStorage()
 })
 </script>
 

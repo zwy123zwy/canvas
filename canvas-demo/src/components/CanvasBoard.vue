@@ -458,11 +458,34 @@ const resetTransform = () => {
   applyTransform()
 }
 
+// 导出画布数据
+const getData = () => {
+  return {
+    shapes: JSON.parse(JSON.stringify(shapes.value)),
+    transform: { ...transform.value }
+  }
+}
+
+// 加载画布数据
+const loadData = (data) => {
+  if (data && data.shapes) {
+    shapes.value = JSON.parse(JSON.stringify(data.shapes))
+    if (data.transform) {
+      transform.value = { ...data.transform }
+      applyTransform()
+    }
+    render()
+    saveState()
+  }
+}
+
 defineExpose({
   undo,
   redo,
   clear,
-  resetTransform
+  resetTransform,
+  getData,
+  loadData
 })
 </script>
 
