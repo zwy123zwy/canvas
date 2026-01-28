@@ -70,7 +70,15 @@ const router = createRouter({
 })
 
 router.beforeEach((to, from, next) => {
+  // 设置页面标题
   document.title = to.meta.title || 'Canvas Demo'
+  
+  // 添加页面过渡效果
+  if (to.path !== from.path) {
+    // 可以在这里添加页面过渡逻辑
+    console.log(`导航: ${from.path} -> ${to.path}`)
+  }
+  
   next()
 })
 

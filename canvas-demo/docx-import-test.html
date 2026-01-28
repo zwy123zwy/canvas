@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>DOCX 导入测试</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      max-width: 800px;
+      margin: 50px auto;
+      padding: 20px;
+      line-height: 1.6;
+    }
+    .test-section {
+      margin-bottom: 30px;
+      padding: 20px;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+    }
+    .test-title {
+      font-size: 18px;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #333;
+    }
+    .test-content {
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 4px;
+      margin-bottom: 10px;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+    .status.success { background: #d4edda; color: #155724; }
+    .status.error { background: #f8d7da; color: #721c24; }
+    .status.warning { background: #fff3cd; color: #856404; }
+  </style>
+</head>
+<body>
+  <h1>📝 富文本编辑器 DOCX 导入功能测试</h1>
+  
+  <div class="test-section">
+    <div class="test-title">功能说明</div>
+    <div class="test-content">
+      <p>富文本编辑器已经集成了 DOCX 导入功能，使用 <strong>mammoth.js</strong> 库将 DOCX 文件转换为 HTML 格式。</p>
+      <p><strong>支持的功能：</strong></p>
+      <ul>
+        <li>文字格式（加粗、斜体、下划线）</li>
+        <li>标题（H1-H6）</li>
+        <li>段落和换行</li>
+        <li>列表（有序和无序）</li>
+        <li>表格</li>
+        <li>图片</li>
+        <li>引用</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <div class="test-title">测试步骤</div>
+    <div class="test-content">
+      <ol>
+        <li>访问 <a href="/rich-text" target="_blank">富文本编辑器</a></li>
+        <li>点击侧边栏的"📁 选择文件"按钮</li>
+        <li>选择一个 .docx 文件</li>
+        <li>观察文档内容是否正确显示在编辑器中</li>
+      </ol>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <div class="test-title">预期效果</div>
+    <div class="test-content">
+      <p>DOCX 文件中的内容应该能够：</p>
+      <ul>
+        <li>✅ 正确转换为 HTML 格式</li>
+        <li>✅ 保持原有的格式（字体、颜色、对齐等）</li>
+        <li>✅ 显示图片和表格</li>
+        <li>✅ 保持段落结构</li>
+        <li>✅ 支持进一步编辑</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <div class="test-title">技术实现</div>
+    <div class="test-content">
+      <p><strong>导入流程：</strong></p>
+      <pre>
+1. 用户选择 DOCX 文件
+2. 读取文件为 ArrayBuffer
+3. 使用 mammoth.convertToHtml() 转换
+4. 将转换后的 HTML 设置到编辑器
+5. 更新内容状态
+      </pre>
+      
+      <p><strong>核心代码：</strong></p>
+      <pre>
+const importFromDocx = async (file) => {
+  const arrayBuffer = await file.arrayBuffer()
+  const result = await mammoth.convertToHtml({ arrayBuffer })
+  editor.value.innerHTML = result.value
+  content.value = result.value
+}
+      </pre>
+    </div>
+  </div>
+  
+  <div class="test-section">
+    <div class="test-title">注意事项</div>
+    <div class="test-content">
+      <ul>
+        <li>确保 DOCX 文件格式正确</li>
+        <li>复杂的样式可能无法完全保留</li>
+        <li>导入后可以继续编辑文档</li>
+        <li>导入的内容会自动保存到本地存储</li>
+      </ul>
+    </div>
+  </div>
+  
+  <div style="text-align: center; margin-top: 30px;">
+    <a href="/rich-text" style="display: inline-block; padding: 10px 20px; background: #007bff; color: white; text-decoration: none; border-radius: 5px; font-weight: bold;">前往富文本编辑器</a>
+  </div>
+</body>
+</html>

@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>测试文档 - 富文本编辑器</title>
+  <style>
+    body {
+      font-family: 'Microsoft YaHei', Arial, sans-serif;
+      line-height: 1.6;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px;
+      background: #f8f9fa;
+    }
+    h1 {
+      color: #333;
+      border-bottom: 3px solid #007bff;
+      padding-bottom: 10px;
+    }
+    h2 {
+      color: #555;
+      margin-top: 30px;
+    }
+    p {
+      margin-bottom: 15px;
+    }
+    .highlight {
+      background: #fff3cd;
+      padding: 15px;
+      border-left: 4px solid #ffc107;
+      margin: 20px 0;
+    }
+    ul, ol {
+      margin-left: 20px;
+      margin-bottom: 15px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      background: white;
+      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ddd;
+      padding: 12px;
+      text-align: left;
+    }
+    th {
+      background: #007bff;
+      color: white;
+    }
+    .code-block {
+      background: #f8f9fa;
+      border: 1px solid #e9ecef;
+      padding: 15px;
+      border-radius: 5px;
+      font-family: 'Courier New', monospace;
+      margin: 15px 0;
+    }
+    blockquote {
+      border-left: 4px solid #007bff;
+      padding-left: 20px;
+      margin: 20px 0;
+      color: #666;
+      font-style: italic;
+    }
+    .footer-note {
+      font-size: 12px;
+      color: #999;
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #ddd;
+    }
+  </style>
+</head>
+<body>
+  <h1>📝 富文本编辑器测试文档</h1>
+  
+  <p>这是一份用于测试富文本编辑器导入功能的示例文档。您可以将此 HTML 文件导入到编辑器中，查看格式是否正确显示。</p>
+  
+  <div class="highlight">
+    <h3>💡 导入功能特点</h3>
+    <p>富文本编辑器支持导入多种格式的文件：</p>
+    <ul>
+      <li><strong>DOCX 文件</strong> - Microsoft Word 文档</li>
+      <li><strong>HTML 文件</strong> - 网页格式文档</li>
+      <li><strong>TXT 文件</strong> - 纯文本文件</li>
+    </ul>
+  </div>
+  
+  <h2>格式化文本示例</h2>
+  <p>这是一段普通的文本。</p>
+  <p><strong>这是加粗的文本</strong></p>
+  <p><em>这是斜体的文本</em></p>
+  <p><u>这是下划线文本</u></p>
+  <p><span style="background-color: yellow;">这是高亮文本</span></p>
+  
+  <h2>列表示例</h2>
+  
+  <h3>无序列表</h3>
+  <ul>
+    <li>第一个项目</li>
+    <li>第二个项目</li>
+    <li>第三个项目
+      <ul>
+        <li>子项目 1</li>
+        <li>子项目 2</li>
+      </ul>
+    </li>
+  </ul>
+  
+  <h3>有序列表</h3>
+  <ol>
+    <li>第一步</li>
+    <li>第二步</li>
+    <li>第三步</li>
+  </ol>
+  
+  <h2>表格示例</h2>
+  <table>
+    <thead>
+      <tr>
+        <th>姓名</th>
+        <th>年龄</th>
+        <th>部门</th>
+        <th>职位</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>张三</td>
+        <td>28</td>
+        <td>技术部</td>
+        <td>前端开发工程师</td>
+      </tr>
+      <tr>
+        <td>李四</td>
+        <td>32</td>
+        <td>销售部</td>
+        <td>销售经理</td>
+      </tr>
+      <tr>
+        <td>王五</td>
+        <td>26</td>
+        <td>人事部</td>
+        <td>人事专员</td>
+      </tr>
+    </tbody>
+  </table>
+  
+  <h2>代码块示例</h2>
+  <div class="code-block">
+    // JavaScript 代码示例
+    function calculateTotal(items) {
+      return items.reduce((total, item) => {
+        return total + item.price * item.quantity;
+      }, 0);
+    }
+    
+    // CSS 样式示例
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+    }
+  </div>
+  
+  <h2>引用示例</h2>
+  <blockquote>
+    "成功的秘诀在于坚持不懈奋斗。无论遇到多大的困难，只要不放弃，终会迎来成功的那一天。"
+    <footer>—— 某位成功人士</footer>
+  </blockquote>
+  
+  <h2>图片占位符</h2>
+  <p>（此处应该显示图片，但在 HTML 中以文字说明）</p>
+  <div style="border: 2px dashed #ccc; padding: 40px; text-align: center; color: #999;">
+    🖼️ 图片位置<br>
+    <small>在 DOCX 文件中，图片会正确显示在这里</small>
+  </div>
+  
+  <h2>分隔线示例</h2>
+  <hr style="border: 1px solid #ddd; margin: 20px 0;">
+  
+  <h2>不同级别的标题</h2>
+  <h3>三级标题</h3>
+  <p>这是三级标题的内容。</p>
+  
+  <h4>四级标题</h4>
+  <p>这是四级标题的内容。</p>
+  
+  <h5>五级标题</h5>
+  <p>这是五级标题的内容。</p>
+  
+  <h6>六级标题</h6>
+  <p>这是六级标题的内容。</p>
+  
+  <div class="footer-note">
+    <p>📝 提示：将此文件导入富文本编辑器后，您可以继续编辑文档内容。</p>
+    <p>🔗 富文本编辑器地址：<a href="/rich-text">/rich-text</a></p>
+  </div>
+</body>
+</html>

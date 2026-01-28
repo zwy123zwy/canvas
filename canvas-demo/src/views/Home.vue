@@ -1,8 +1,15 @@
 <template>
   <div class="home">
     <header class="home-header">
-      <h1>📚 文档中心</h1>
-      <p>选择一个应用开始创作</p>
+      <div class="header-left">
+        <h1>📚 文档中心</h1>
+        <p>选择一个应用开始创作</p>
+      </div>
+      <div class="header-actions">
+        <button class="help-btn" @click="showHelp">
+          ❓ 使用帮助
+        </button>
+      </div>
     </header>
 
     <div class="apps-grid">
@@ -52,12 +59,41 @@
 
     <footer class="home-footer">
       <p>© 2026 Canvas Demo | 打造你的创作工作台</p>
+      <p class="footer-tip">💡 提示：点击应用卡片即可进入对应编辑器，无需刷新页面</p>
     </footer>
+
+    <!-- 使用帮助弹窗 -->
+    <div v-if="showingHelp" class="help-modal" @click="hideHelp">
+      <div class="help-content" @click.stop>
+        <h3>使用帮助</h3>
+        <p>这是一个多应用文档中心，包含以下功能：</p>
+        <ul>
+          <li>🎨 Canvas 画板 - 绘图和图形编辑</li>
+          <li>📝 富文本编辑器 - 文档编辑，支持 DOCX 导入</li>
+          <li>📊 表格编辑器 - 数据管理和分析</li>
+          <li>🔗 思维导图 - 可视化思维整理</li>
+          <li>📋 Markdown 编辑器 - 轻量级文档编写</li>
+          <li>📈 流程图编辑器 - 流程设计和建模</li>
+        </ul>
+        <button @click="hideHelp">关闭</button>
+      </div>
+    </div>
   </div>
 </template>
 
 <script setup>
 import AppCard from '../components/home/AppCard.vue'
+import { ref } from 'vue'
+
+const showingHelp = ref(false)
+
+const showHelp = () => {
+  showingHelp.value = true
+}
+
+const hideHelp = () => {
+  showingHelp.value = false
+}
 </script>
 
 <style scoped>
@@ -167,6 +203,66 @@ import AppCard from '../components/home/AppCard.vue'
   margin-top: 60px;
   padding: 20px;
   opacity: 0.8;
+}
+
+.home-footer .footer-tip {
+  margin-top: 10px;
+  font-size: 12px;
+  opacity: 0.9;
+}
+
+.help-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.help-content {
+  background: white;
+  padding: 30px;
+  border-radius: 12px;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+.help-content h3 {
+  margin-top: 0;
+  color: #333;
+}
+
+.help-content ul {
+  list-style: none;
+  padding: 0;
+  margin: 15px 0;
+}
+
+.help-content li {
+  padding: 8px 0;
+  border-bottom: 1px solid #eee;
+  color: #666;
+}
+
+.help-content button {
+  background: #3498db;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  margin-top: 20px;
+}
+
+.help-content button:hover {
+  background: #2980b9;
 }
 
 @media (max-width: 768px) {
